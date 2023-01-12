@@ -1,6 +1,6 @@
 # Shortcut by Sourcebox
 
-![](docs/images/preview.png)
+![](docs/images/preview.gif)
 
 ## Run locally
 
@@ -13,3 +13,10 @@ Start the server
 ```bash
 npm run dev
 ```
+
+## TODO
+
+- [ ] Move supabase inserts server side
+- [ ] Customizable domain for app and short link
+- [ ] Redirect to app when on root of short link
+- [ ] Deploy (Netlify?)
