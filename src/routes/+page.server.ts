@@ -1,7 +1,7 @@
 import type { PageServerLoad, Actions } from "../../.svelte-kit/types/src/routes/$types";
 import {supabase} from "$lib/supabase-client";
-import Hashids from "hashids/esm";
 import {SHORT_URL_DOMAIN} from "$env/static/private";
+import Hashids from "hashids";
 
 let short_code: string | null;
 let shortcut: Shortcut = {
