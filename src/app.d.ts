@@ -4,6 +4,8 @@
 declare namespace App {
     // interface Error {}
     // interface Locals {}
-    // interface PageData {}
+    interface PageData {
+        shortcut?: import('./types/Shortcut')
+    }
     // interface Platform {}
 }

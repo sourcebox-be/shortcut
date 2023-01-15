@@ -16,7 +16,8 @@ npm run dev
 
 ## TODO
 
-- [ ] Move supabase inserts server side
-- [ ] Customizable domain for app and short link
+- [x] Move supabase inserts server side
+- [x] Customizable domain for app and short link
 - [ ] Redirect to app when on root of short link
-- [ ] Deploy (Netlify?)
+- [x] Deploy (Netlify?)
+- [ ] Clean up server response
