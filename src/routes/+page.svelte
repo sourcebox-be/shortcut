@@ -61,17 +61,17 @@
                     shorten
                   </button>
                 {:else}
-                  <a class="btn bg-neutral/30 border-neutral/30" on:click={restart}>
-                    <img class="h-7 w-7" src={restartIcon}>
+                  <a class="btn bg-neutral/30 border-neutral/30" on:click|preventDefault={restart} href="#restart">
+                    <img class="h-7 w-7" src={restartIcon} alt="restart">
                   </a>
 
                   <input value="{server}/{code}" class="input input-bordered border-neutral/30 w-full max-w-xs" />
 
-                  <a class="btn btn-primary" on:click={copy}>
+                  <a class="btn btn-primary" on:click|preventDefault={copy} href="#copy">
                     {#if copied}
                       copied!
                     {:else}
-                      <img class="mr-2 h-6 w-6" src={copyIcon}> copy
+                      <img class="mr-2 h-6 w-6" src={copyIcon} alt="copy"> copy
                     {/if}
                   </a>
                 {/if}
