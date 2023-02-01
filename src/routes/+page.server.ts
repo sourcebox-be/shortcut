@@ -1,67 +1,75 @@
-import type { PageServerLoad, Actions } from "../../.svelte-kit/types/src/routes/$types";
-import {supabase} from "$lib/supabase-client";
-import {SHORT_URL_DOMAIN} from "$env/static/private";
+import type { PageServerLoad, Actions } from "./$types";
+import { supabase } from "$lib/supabase-client";
+import { SHORT_URL_DOMAIN } from "$env/static/private";
 import Hashids from "hashids";
 
-let short_code: string | null;
 let shortcut: Shortcut = {
-    url: null
+  url: null,
 };
 
 interface Response {
-    success: string | null,
-    error?: string | null,
-    data?: {
-        url: string | null,
-    }
+  success: boolean;
+  error?: string | null;
+  data?: {
+    url: string | null;
+  };
 }
 
-const server = 'https://' + SHORT_URL_DOMAIN;
+const server = `https://${SHORT_URL_DOMAIN}`;
+
+const hashidsEncoder = new Hashids(Date.now().toString(), 2);
+
+const generateShortCode = (): string => {
+  return hashidsEncoder.encode(Date.now());
+};
 
 export const load: PageServerLoad<Shortcut> = (({ params }) => {
-    return shortcut;
-}) satisfies PageServerLoad;
+  return shortcut;
+}) satisfies PageServerLoad<Shortcut>;
 
 export const actions: Actions = {
-    default: async<Response> ({request}) => {
-        const formData = await request.formData();
-        const url = formData.get('url');
+  default: async ({ request }): Promise<Response> => {
+    const formData = await request.formData();
+    const url: string = formData.get("url")?.toString() ?? "";
 
-
-        try {
-            new URL(url);
-        } catch (_) {
-            return {
-                success: false,
-                error: "Invalid URL",
-                data: {
-                    url: url
-                }
-            }
-        }
-
-        let hashIds = new Hashids(Date.now().toString(), 2)
-        short_code = hashIds.encode(Date.now());
-
-        const { data, error } = await supabase
-            .from('shortcuts')
-            .insert({ url: formData.get('url'), short_code:  short_code})
-            .select()
-
-        if (data) {
-            shortcut.url = server + '/' + short_code;
-
-            return {
-                success: true,
-                data: {
-                    url: formData.get('url')
-                }
-            };
-        }
-
-        return {
-            success: false,
-            error: error?.message
-        }
+    try {
+      new URL(url);
+    } catch (_) {
+      return errorResponse("Invalid URL", url);
     }
+
+    const shortCode = generateShortCode();
+
+    const { data, error } = await supabase
+      .from("shortcuts")
+      .insert({ url: url, short_code: shortCode })
+      .select();
+
+    if (!data) {
+      return errorResponse(error?.message);
+    }
+
+    shortcut.url = server + "/" + shortCode;
+
+    return successResponse(url);
+  },
+};
+
+const errorResponse = (error: string, url?: string | null): Response => {
+  return {
+    success: false,
+    error: error,
+    data: {
+      url: url ?? null,
+    },
+  };
+};
+
+const successResponse = (url?: string | null): Response => {
+  return {
+    success: true,
+    data: {
+      url: url ?? null,
+    },
+  };
 };
