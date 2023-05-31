@@ -28,7 +28,7 @@ docker run -d \
     -e DATABASE_URL="file://data/db1.sqlite" \
     -e SHORT_URL_DOMAIN="srcbx.be" \
     -e ORIGIN="https://shortcode.sourcebox.be" \
-    ghcr.io/sourcebox-be/shortcut:3.8
+    ghcr.io/sourcebox-be/shortcut:master
 ```
 
 Via docker compose
