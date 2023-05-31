@@ -1,7 +1,9 @@
 import type { PageServerLoad, Actions } from "./$types";
-import { supabase } from "$lib/supabase-client";
-import { SHORT_URL_DOMAIN } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import Hashids from "hashids";
+import prisma from "$lib/prisma";
+
+const SHORT_URL_DOMAIN = env.SHORT_URL_DOMAIN;
 
 let shortcut: Shortcut = {
   url: null,
@@ -40,14 +42,12 @@ export const actions: Actions = {
 
     const shortCode = generateShortCode();
 
-    const { data, error } = await supabase
-      .from("shortcuts")
-      .insert({ url: url, short_code: shortCode })
-      .select();
-
-    if (!data) {
-      return errorResponse(error?.message);
-    }
+    await prisma.shortcuts.create({
+      data: {
+        url: url,
+        short_code: shortCode,
+      },
+    });
 
     shortcut.url = server + "/" + shortCode;
 

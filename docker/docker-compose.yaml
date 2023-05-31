@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  sourcebox_shortcuts:
+    container_name: sourcebox_shortcuts
+    image: sourcebox-shortcuts
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: "file://data/db1.sqlite"
+      SHORT_URL_DOMAIN: "srcbx.be"
+      ORIGIN: "http://localhost:3000"

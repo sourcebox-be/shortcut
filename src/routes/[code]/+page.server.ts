@@ -1,5 +1,5 @@
 import { redirect, error } from "@sveltejs/kit";
-import { supabase } from "$lib/supabase-client";
+import prisma from "$lib/prisma";
 
 interface Params {
   params: {
@@ -8,12 +8,13 @@ interface Params {
 }
 
 export async function load({ params: { code } }: Params) {
-  const { data } = await supabase
-    .from("shortcuts")
-    .select("url")
-    .eq("short_code", code);
+  const data = await prisma.shortcuts.findFirstOrThrow({
+    where: {
+      short_code: code,
+    },
+  });
 
-  if (!data || !data[0]) throw error(404);
+  if (!data) throw error(404);
 
-  throw redirect(301, data[0].url);
+  throw redirect(301, data.url);
 }

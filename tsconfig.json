@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "esm": true
+  },
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,

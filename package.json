@@ -4,32 +4,39 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "prisma migrate deploy && vite dev --host 0.0.0.0 --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "devDependencies": {
-    "@supabase/supabase-js": "^2.4.0",
     "@sveltejs/adapter-auto": "^1.0.0",
-    "@sveltejs/adapter-netlify": "^1.0.0-next.88",
+    "@sveltejs/adapter-node": "^1.2.4",
     "@sveltejs/kit": "^1.0.11",
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/node-fetch": "^2.6.2",
     "autoprefixer": "^10.4.7",
     "daisyui": "^2.46.1",
     "hashids": "^2.2.10",
     "postcss": "^8.4.14",
     "postcss-load-config": "^4.0.1",
+    "prisma": "^4.15.0",
     "svelte": "^3.54.0",
     "svelte-check": "^2.10.0",
     "svelte-preprocess": "^4.10.7",
     "tailwindcss": "^3.2.4",
+    "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.3",
-    "vite": "^4.0.0",
-    "@types/node-fetch": "^2.6.2"
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.15.0"
   }
 }

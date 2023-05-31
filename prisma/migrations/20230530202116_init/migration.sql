@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "Shortcuts" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "url" TEXT NOT NULL,
+    "short_code" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
