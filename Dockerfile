@@ -4,6 +4,7 @@ EXPOSE 3000
 
 FROM base as build
 
+RUN wget -qO- https://gobinaries.com/tj/node-prune | sh
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 
@@ -19,8 +20,10 @@ CMD ["npm", "run", "dev"]
 
 FROM build as prod
 
+RUN npm run prepare
 RUN npm run build
 RUN npm prune --omit=dev
+RUN /usr/local/bin/node-prune
 
 FROM base
 

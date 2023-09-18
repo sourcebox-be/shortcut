@@ -1,4 +1,8 @@
 .vscode
+.idea
+.svelte-kit
+docs
+docker
 
 node_modules
 
@@ -14,3 +18,5 @@ node_modules
 README.md
 
 Dockerfile
+
+prisma/db.db
